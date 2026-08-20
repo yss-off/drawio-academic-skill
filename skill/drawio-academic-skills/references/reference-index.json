@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "license_scope": "Entries point only to examples and templates bundled under this overlay's MIT license. Metadata is a layout prior, not permission to copy external figure content.",
+  "entries": [
+    {
+      "id": "example-yolo-model-architecture",
+      "path": "references/examples/yolo-model-architecture-paper.yaml",
+      "kind": "example",
+      "figure_types": ["architecture"],
+      "features": ["deep-learning", "layered", "multi-head", "legend"],
+      "use_when": "A model figure needs compact backbone, fusion, and prediction stages.",
+      "avoid_when": "The figure's primary meaning is chronological experimentation rather than model structure.",
+      "license": "MIT",
+      "source": "bundled overlay example"
+    },
+    {
+      "id": "example-max-pooling-operation",
+      "path": "references/examples/max-pooling-operation-paper.yaml",
+      "kind": "example",
+      "figure_types": ["architecture", "workflow"],
+      "features": ["mechanism", "explicit-bounds", "formula", "native-grid"],
+      "use_when": "A local mathematical or tensor operation needs editable cells and a short formula.",
+      "avoid_when": "The requested figure is a system-level architecture overview.",
+      "license": "MIT",
+      "source": "bundled overlay example"
+    },
+    {
+      "id": "example-ablation-study-pipeline",
+      "path": "references/examples/ablation-study-pipeline.yaml",
+      "kind": "example",
+      "figure_types": ["workflow"],
+      "features": ["parallel-branches", "convergence", "shared-evaluation"],
+      "use_when": "Baseline and variants branch before a common evaluation stage.",
+      "avoid_when": "Variants do not share comparable inputs or evaluation semantics.",
+      "license": "MIT",
+      "source": "bundled overlay example"
+    },
+    {
+      "id": "example-research-pipeline",
+      "path": "references/examples/research-pipeline.yaml",
+      "kind": "example",
+      "figure_types": ["workflow"],
+      "features": ["linear-flow", "research-stages", "validation"],
+      "use_when": "A manuscript needs a concise end-to-end research workflow.",
+      "avoid_when": "The source contains several interacting feedback loops or static subsystem boundaries.",
+      "license": "MIT",
+      "source": "bundled overlay example"
+    },
+    {
+      "id": "example-system-architecture",
+      "path": "references/examples/system-architecture-paper.yaml",
+      "kind": "example",
+      "figure_types": ["architecture"],
+      "features": ["layered", "modules", "data-flow", "two-column"],
+      "use_when": "A paper needs a compact client, service, worker, and storage overview.",
+      "avoid_when": "The main argument is a temporal roadmap or decision-heavy procedure.",
+      "license": "MIT",
+      "source": "bundled overlay example"
+    },
+    {
+      "id": "example-industrial-architecture-cn",
+      "path": "references/examples/industrial-architecture-cn-paper.yaml",
+      "kind": "example",
+      "figure_types": ["architecture"],
+      "features": ["cjk", "thesis", "layered", "industrial-system"],
+      "use_when": "A Chinese thesis figure needs an industrial layered-system pattern.",
+      "avoid_when": "Exact SimSun rendering cannot be verified and no fallback disclosure is possible.",
+      "license": "MIT",
+      "source": "bundled overlay example"
+    },
+    {
+      "id": "example-ieee-network",
+      "path": "references/examples/ieee-network-paper.yaml",
+      "kind": "example",
+      "figure_types": ["architecture"],
+      "features": ["network", "ieee", "grayscale", "hierarchical"],
+      "use_when": "An IEEE network figure needs core, distribution, and access hierarchy.",
+      "avoid_when": "Provider-specific icon fidelity is more important than the academic network hierarchy.",
+      "license": "MIT",
+      "source": "bundled overlay example"
+    },
+    {
+      "id": "example-technical-roadmap",
+      "path": "references/examples/technical-roadmap-paper.yaml",
+      "kind": "example",
+      "figure_types": ["roadmap"],
+      "features": ["progression", "milestones", "stage-outputs"],
+      "use_when": "The claim is a staged technical progression with milestone outputs.",
+      "avoid_when": "Arrows represent runtime causality or iterative feedback rather than progression.",
+      "license": "MIT",
+      "source": "bundled overlay example"
+    },
+    {
+      "id": "template-multi-module-compact",
+      "path": "references/templates/multi-module-system-compact.yaml",
+      "kind": "template",
+      "figure_types": ["architecture"],
+      "features": ["compact", "multi-module", "node-budget"],
+      "use_when": "A multi-module system must stay inside a publication node budget.",
+      "avoid_when": "Source-relative placement or asymmetric hero panels are essential.",
+      "license": "MIT",
+      "source": "bundled overlay template"
+    },
+    {
+      "id": "template-neural-network-compact",
+      "path": "references/templates/neural-network-architecture-compact.yaml",
+      "kind": "template",
+      "figure_types": ["architecture"],
+      "features": ["compact", "deep-learning", "node-budget", "stage-compression"],
+      "use_when": "A neural-network figure needs stage compression before detail panels.",
+      "avoid_when": "The paper argument depends on every repeated internal layer being separately visible.",
+      "license": "MIT",
+      "source": "bundled overlay template"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/drawio-academic/figure-manifest-1.0.schema.json",
+  "title": "Draw.io Academic Figure Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "figure_id",
+    "title",
+    "status",
+    "contract",
+    "semantic_inventory",
+    "layout",
+    "reference_selection",
+    "render",
+    "qa",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "figure_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"},
+    "title": {"type": "string", "minLength": 1},
+    "status": {"enum": ["planning", "rendered", "review", "accepted"]},
+    "contract": {
+      "type": "object",
+      "required": ["figure_type", "venue", "communication_goal", "intended_claim", "language", "palette", "print_target"],
+      "properties": {
+        "figure_type": {"enum": ["architecture", "workflow", "roadmap"]},
+        "delivery_class": {"enum": ["pending", "raster-publication", "vector-submission", "draft-preview"]}
+      },
+      "additionalProperties": true
+    },
+    "semantic_inventory": {
+      "type": "object",
+      "required": ["nodes", "edges", "abbreviations", "formulas"],
+      "properties": {
+        "nodes": {"type": "array"},
+        "edges": {"type": "array"},
+        "abbreviations": {"type": "array"},
+        "formulas": {"type": "array"}
+      },
+      "additionalProperties": false
+    },
+    "layout": {
+      "type": "object",
+      "required": ["candidates", "selected_id", "selection_reason"],
+      "properties": {
+        "candidates": {"type": "array"},
+        "selected_id": {"type": ["string", "null"]},
+        "selection_reason": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "reference_selection": {"type": "object"},
+    "render": {"type": "object"},
+    "qa": {"type": "object"},
+    "provenance": {"type": "object"}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "cases": [
+    {"id": "architecture-linear-pipeline", "figure_type": "architecture", "sections": ["Input", "Encoder", "Fusion", "Output"], "has_feedback": false, "secondary_axis": false, "expected_candidate_ids": ["architecture-layered", "architecture-modular-grid", "architecture-hero-support"]},
+    {"id": "architecture-feedback-loop", "figure_type": "architecture", "sections": ["Sensing", "Inference", "Decision", "Action"], "has_feedback": true, "secondary_axis": false, "expected_edge_phrase": "feedback"},
+    {"id": "architecture-capability-axis", "figure_type": "architecture", "sections": ["Perception", "Reasoning", "Planning"], "has_feedback": false, "secondary_axis": true, "expected_candidate_ids": ["architecture-layered", "architecture-modular-grid", "architecture-orthogonal-context"]},
+    {"id": "architecture-two-options", "figure_type": "architecture", "sections": ["Client", "Service", "Storage"], "has_feedback": false, "secondary_axis": false, "count": 2, "expected_count": 2},
+    {"id": "workflow-linear", "figure_type": "workflow", "sections": ["Collect", "Clean", "Train", "Evaluate"], "has_feedback": false, "secondary_axis": false, "expected_candidate_ids": ["workflow-linear", "workflow-swimlane", "workflow-branch-converge"]},
+    {"id": "workflow-feedback", "figure_type": "workflow", "sections": ["Observe", "Decide", "Act", "Review"], "has_feedback": true, "secondary_axis": false, "expected_edge_phrase": "feedback"},
+    {"id": "workflow-context-axis", "figure_type": "workflow", "sections": ["Acquire", "Model", "Validate"], "has_feedback": false, "secondary_axis": true, "expected_candidate_ids": ["workflow-linear", "workflow-swimlane", "workflow-orthogonal-context"]},
+    {"id": "workflow-two-options", "figure_type": "workflow", "sections": ["Setup", "Variants", "Shared evaluation"], "has_feedback": false, "secondary_axis": false, "count": 2, "expected_count": 2},
+    {"id": "roadmap-simple", "figure_type": "roadmap", "sections": ["Prototype", "Pilot", "Deployment"], "has_feedback": false, "secondary_axis": false, "expected_candidate_ids": ["roadmap-horizontal", "roadmap-vertical"]},
+    {"id": "roadmap-dual-axis", "figure_type": "roadmap", "sections": ["Baseline", "Integration", "Autonomy"], "has_feedback": false, "secondary_axis": true, "expected_candidate_ids": ["roadmap-horizontal", "roadmap-vertical", "roadmap-dual-axis"]},
+    {"id": "roadmap-two-options", "figure_type": "roadmap", "sections": ["Phase 1", "Phase 2", "Phase 3"], "has_feedback": false, "secondary_axis": true, "count": 2, "expected_count": 2},
+    {"id": "semantic-preservation", "figure_type": "architecture", "sections": ["Exact A", "Exact B", "Exact C"], "has_feedback": true, "secondary_axis": true, "expected_scientific_content_status": "unchanged"}
+  ]
+}

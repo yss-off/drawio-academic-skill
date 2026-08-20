@@ -1,0 +1,13 @@
+[project]
+name = "drawio-academic-skill"
+version = "0.1.0"
+description = "Personal engineering source for a publication-focused draw.io Codex skill"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+
+[tool.drawio_academic_skill]
+skill_name = "drawio-academic-skills"
+skill_path = "skill/drawio-academic-skills"
+base_skill_name = "drawio"
+offline = true

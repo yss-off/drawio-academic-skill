@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "checks": [
+    {"id": "reference-index-valid", "evidence": "smoke_test.py validates every indexed path, stable ID, and bundled license record"},
+    {"id": "layout-candidates-deterministic", "evidence": "12 fixture cases produce two or three structurally named plans without semantic rewriting"},
+    {"id": "manifest-known-bad", "evidence": "10 mutations must fail with their declared finding code"},
+    {"id": "manifest-artifact-integrity", "evidence": "accepted manifest hashes present artifacts, detects a later mismatch, and requires the primary artifact to match delivery_class"},
+    {"id": "no-implicit-overwrite", "evidence": "manifest output refuses an existing destination unless force is explicit"},
+    {"id": "existing-examples-strict", "evidence": "all bundled example and template YAML files pass sibling-base strict validation"},
+    {"id": "representative-forward-test", "evidence": "one bundled architecture example exports editable drawio plus standalone SVG and is visually inspected"},
+    {"id": "installed-copy-unchanged", "evidence": "final installed-tree hash and latest mtime are recorded after validation; the latest installed mtime predates source implementation"}
+  ]
+}

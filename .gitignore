@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.drawio-tmp/
+outputs/
+node_modules/
+/skill/drawio
+.venv/
+dist/
+*.zip
