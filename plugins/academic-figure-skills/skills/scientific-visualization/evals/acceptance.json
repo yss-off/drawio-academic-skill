@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "minimum_case_counts": {
+    "trigger_cases": 20,
+    "chart_choice_cases": 20,
+    "known_bad_cases": 10
+  },
+  "required_checks": [
+    "profiler preserves source bytes",
+    "profiler repeats deterministically",
+    "profiler reports heuristic parameters",
+    "Markdown derives from the authoritative JSON",
+    "font preflight reports actual font files and missing glyphs",
+    "visual QA detects the bundled overlap demo",
+    "workflow manifest extension is optional and additive",
+    "export still refuses implicit overwrite",
+    "all bundled CLI help commands exit successfully",
+    "installed runtime copy remains untouched"
+  ]
+}

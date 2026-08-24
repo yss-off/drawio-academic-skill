@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.0 - 2026-08-20
+
+- 将工程重构为 `academic-figure-skills` skills-only Codex 插件，并加入 repo marketplace；
+- 将运行时入口迁入 `plugins/academic-figure-skills/skills/`，工程治理文件继续留在插件外；
+- 从 `bahayonghang/drawio-skills@27dac02` 引入 MIT 许可的 `drawio` v2.7.0 base，形成自包含三-skill 安装包；
+- 新增插件 manifest、第三方许可归属、插件结构校验和确定性插件 ZIP；
+- 保留三个 skill 的独立打包入口，未修改或同步任何已安装运行副本。
+
+## 0.2.0 - 2026-08-20
+
+- 将 `scientific-visualization` v1.2 权威源和来源/验收记录迁入同一工程；
+- 保留 `drawio-academic-skills` 与 `scientific-visualization` 两个独立运行时入口和绘制后端；
+- 将工程名称调整为 `Academic Figure Skills`，建立统一 skill 清单和独立版本字段；
+- 新增跨 skill 路由 gold cases，覆盖数据图、关系图、组合图和信息不足四类请求；
+- 统一双 skill 结构验证、smoke/CLI 回归、sibling-base 兼容检查和确定性独立打包。
+
 ## 0.1.0 - 2026-08-20
 
 首个个人工程版本：

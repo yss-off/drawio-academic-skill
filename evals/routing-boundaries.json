@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "routes": [
+    "drawio-academic-skills",
+    "scientific-visualization",
+    "compose",
+    "clarify"
+  ],
+  "cases": [
+    {
+      "id": "r01",
+      "prompt": "Create an editable neural-network architecture figure for my paper.",
+      "expected_route": "drawio-academic-skills",
+      "reason": "The task is a relational model diagram and requires an editable diagram source."
+    },
+    {
+      "id": "r02",
+      "prompt": "Redraw this feedback-control mechanism with exact arrow directions and formulas.",
+      "expected_route": "drawio-academic-skills",
+      "reason": "The scientific meaning is encoded by nodes, relations, arrows, and formula placement."
+    },
+    {
+      "id": "r03",
+      "prompt": "Make an IEEE workflow figure for the experiment and deliver the .drawio source.",
+      "expected_route": "drawio-academic-skills",
+      "reason": "The requested workflow and editable drawio artifact select the diagram backend."
+    },
+    {
+      "id": "r04",
+      "prompt": "Turn these project phases into a thesis technical roadmap.",
+      "expected_route": "drawio-academic-skills",
+      "reason": "A roadmap is a progression diagram rather than a numerical data encoding."
+    },
+    {
+      "id": "r05",
+      "prompt": "Rebuild this system framework screenshot as native editable cells.",
+      "expected_route": "drawio-academic-skills",
+      "reason": "Native editable cells and relationship preservation require the drawio backend."
+    },
+    {
+      "id": "r06",
+      "prompt": "Plot treatment response with raw observations and 95% confidence intervals.",
+      "expected_route": "scientific-visualization",
+      "reason": "The task maps measured values and uncertainty into a statistical plot."
+    },
+    {
+      "id": "r07",
+      "prompt": "Profile results.tsv before choosing a chart for the manuscript.",
+      "expected_route": "scientific-visualization",
+      "reason": "Read-only table profiling and chart selection belong to the plotting backend."
+    },
+    {
+      "id": "r08",
+      "prompt": "Audit whether this heatmap normalization and missing-value color match the source matrix.",
+      "expected_route": "scientific-visualization",
+      "reason": "The review concerns numerical mapping and missing-data encoding."
+    },
+    {
+      "id": "r09",
+      "prompt": "Create a two-panel Seaborn figure with stable category colors and shared axes.",
+      "expected_route": "scientific-visualization",
+      "reason": "The user explicitly requests a plotting library and multi-panel data figure."
+    },
+    {
+      "id": "r10",
+      "prompt": "Check this exported TIFF's effective DPI, color mode, and transparency.",
+      "expected_route": "scientific-visualization",
+      "reason": "The scientific plotting skill owns general raster and vector metadata screening."
+    },
+    {
+      "id": "r11",
+      "prompt": "Build one paper figure with a model architecture panel and a performance-curve panel.",
+      "expected_route": "compose",
+      "reason": "The architecture and data plot need separate canonical sources and backend-specific evidence."
+    },
+    {
+      "id": "r12",
+      "prompt": "Combine an ablation workflow schematic with the measured ablation results in one submission bundle.",
+      "expected_route": "compose",
+      "reason": "The request contains both relational and numerical figure semantics."
+    },
+    {
+      "id": "r13",
+      "prompt": "Create a publication-ready figure for my paper.",
+      "expected_route": "clarify",
+      "reason": "The request does not reveal whether the figure explains data or relationships."
+    },
+    {
+      "id": "r14",
+      "prompt": "Make this academic figure clearer.",
+      "expected_route": "clarify",
+      "reason": "Without the source artifact or its semantic type, selecting a backend would be guesswork."
+    }
+  ]
+}

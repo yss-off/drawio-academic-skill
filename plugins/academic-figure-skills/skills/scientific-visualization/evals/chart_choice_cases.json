@@ -1,0 +1,22 @@
+[
+  {"id":"c01","goal":"show the full distribution","data_shape":"one quantitative variable","recommendation_contains":["ECDF","histogram","observations"],"risk":"bin or bandwidth sensitivity"},
+  {"id":"c02","goal":"compare independent groups","data_shape":"category plus quantitative response","recommendation_contains":["raw observations","interval or distribution summary"],"risk":"replicate unit unknown"},
+  {"id":"c03","goal":"compare paired before/after values","data_shape":"subject id, phase, response","recommendation_contains":["paired points","within-subject change"],"risk":"do not treat rows as independent"},
+  {"id":"c04","goal":"show a time trend","data_shape":"time, treatment, repeated response","recommendation_contains":["points or line","uncertainty"],"risk":"missing visits and repeated measures"},
+  {"id":"c05","goal":"show association","data_shape":"two quantitative variables","recommendation_contains":["scatter"],"risk":"nonlinearity and grouping"},
+  {"id":"c06","goal":"show association in a dense sample","data_shape":"two quantitative variables with many overlapping rows","recommendation_contains":["hexbin","density"],"risk":"overplotting"},
+  {"id":"c07","goal":"show composition across conditions","data_shape":"condition, component, proportion","recommendation_contains":["stacked bars"],"risk":"denominator and category order"},
+  {"id":"c08","goal":"show centered change matrix","data_shape":"feature by sample signed values","recommendation_contains":["heatmap","diverging"],"risk":"center and limits"},
+  {"id":"c09","goal":"show positive intensity matrix","data_shape":"spatial grid of nonnegative measurements","recommendation_contains":["image","sequential"],"risk":"normalization and missing values"},
+  {"id":"c10","goal":"compare estimates with confidence intervals","data_shape":"term, estimate, lower, upper","recommendation_contains":["dot-and-whisker","reference line"],"risk":"interval definition"},
+  {"id":"c11","goal":"show model calibration","data_shape":"predicted probability and observed outcome","recommendation_contains":["calibration curve"],"risk":"binning and uncertainty"},
+  {"id":"c12","goal":"show classification tradeoff","data_shape":"threshold, precision, recall","recommendation_contains":["precision-recall curve"],"risk":"class prevalence"},
+  {"id":"c13","goal":"show many pairwise associations","data_shape":"several quantitative variables","recommendation_contains":["selected pair views","correlation matrix"],"risk":"method and multiple comparisons"},
+  {"id":"c14","goal":"show sample structure after PCA","data_shape":"scores plus group metadata","recommendation_contains":["score scatter"],"risk":"scaling and explained variance"},
+  {"id":"c15","goal":"show individual trajectories","data_shape":"subject, ordered time, response","recommendation_contains":["individual trajectories"],"risk":"occlusion and missing visits"},
+  {"id":"c16","goal":"show dose response","data_shape":"positive dose plus response","recommendation_contains":["points","model curve"],"risk":"zero dose and model provenance"},
+  {"id":"c17","goal":"compare categories with long labels","data_shape":"category and count","recommendation_contains":["horizontal bars"],"risk":"sorting changes semantic order"},
+  {"id":"c18","goal":"show a censored survival outcome","data_shape":"time, event indicator, group","recommendation_contains":["survival curve","censor marks"],"risk":"requires confirmed survival analysis"},
+  {"id":"c19","goal":"show uncertainty across methods and datasets","data_shape":"method, dataset, estimate, interval","recommendation_contains":["faceted dot-and-whisker"],"risk":"shared scales and multiplicity"},
+  {"id":"c20","goal":"show two claims with incompatible scales","data_shape":"several outcomes with different units","recommendation_contains":["aligned panels","separate axes"],"risk":"dual-axis apparent correlation"}
+]

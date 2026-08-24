@@ -1,0 +1,8 @@
+interface:
+  display_name: 'Draw.io Base'
+  short_description: 'Create, edit, replicate, import, and export draw.io diagrams with an offline YAML-first workflow, themes, schemas, style presets, and optional Desktop export'
+  brand_color: '#2563EB'
+  default_prompt: 'Create an editable draw.io diagram from my requirements.'
+
+policy:
+  allow_implicit_invocation: true

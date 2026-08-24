@@ -1,0 +1,20 @@
+{
+  "name": "personal",
+  "interface": {
+    "displayName": "Academic Figure Skills"
+  },
+  "plugins": [
+    {
+      "name": "academic-figure-skills",
+      "source": {
+        "source": "local",
+        "path": "./plugins/academic-figure-skills"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+[
+  {"id":"b01","layer":"textual","defect":"missing CJK glyph","expected":"automated visual_qa finding"},
+  {"id":"b02","layer":"visual","defect":"overlapping x tick labels","expected":"automated visual_qa finding"},
+  {"id":"b03","layer":"visual","defect":"title outside canvas","expected":"automated visual_qa finding"},
+  {"id":"b04","layer":"numeric","defect":"plotted values differ from source table","expected":"manual source-to-plot comparison"},
+  {"id":"b05","layer":"textual","defect":"axis unit differs from contract","expected":"manual contract comparison"},
+  {"id":"b06","layer":"numeric","defect":"independent rows inferred from repeated measures","expected":"manual replication audit"},
+  {"id":"b07","layer":"visual","defect":"legend occludes a data cluster","expected":"rendered-preview inspection"},
+  {"id":"b08","layer":"visual","defect":"color is the only category cue","expected":"rendered-preview and palette inspection"},
+  {"id":"b09","layer":"textual","defect":"uncertainty type omitted","expected":"caption and contract comparison"},
+  {"id":"b10","layer":"visual","defect":"same variable uses inconsistent scales across panels","expected":"cross-panel rendered-preview inspection"}
+]

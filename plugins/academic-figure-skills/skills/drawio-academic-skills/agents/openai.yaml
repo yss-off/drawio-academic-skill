@@ -1,0 +1,8 @@
+interface:
+  display_name: "Draw.io Academic Figures"
+  short_description: "Plan, create, and audit publication-ready draw.io figures with layout candidates, YAML sidecars, manifests, and academic checks"
+  brand_color: "#2563EB"
+  default_prompt: "Create a publication-ready editable draw.io figure."
+
+policy:
+  allow_implicit_invocation: true

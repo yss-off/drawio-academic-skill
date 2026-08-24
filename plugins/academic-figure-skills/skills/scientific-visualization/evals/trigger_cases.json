@@ -1,0 +1,22 @@
+[
+  {"id":"t01","prompt":"Plot treatment response from results.csv for a manuscript figure.","expected":"trigger"},
+  {"id":"t02","prompt":"Audit whether these error bars and missing values are represented honestly.","expected":"trigger"},
+  {"id":"t03","prompt":"Profile this TSV before we decide how to visualize it.","expected":"trigger"},
+  {"id":"t04","prompt":"Make a two-panel Matplotlib figure with shared category mappings.","expected":"trigger"},
+  {"id":"t05","prompt":"Check this exported TIFF's effective DPI and color mode.","expected":"trigger"},
+  {"id":"t06","prompt":"Prepare a PDF master and PNG preview for this scientific plot.","expected":"trigger"},
+  {"id":"t07","prompt":"Review the labels, units, clipping, and legend on this plot.","expected":"trigger"},
+  {"id":"t08","prompt":"Choose an honest chart for paired measurements over time.","expected":"trigger"},
+  {"id":"t09","prompt":"Check whether the Chinese labels have a valid local font fallback.","expected":"trigger"},
+  {"id":"t10","prompt":"Create a Plotly result explorer plus an accessible static fallback.","expected":"trigger"},
+  {"id":"t11","prompt":"Here is data.csv, plot it.","expected":"clarify_scientific_question"},
+  {"id":"t12","prompt":"Make this existing figure prettier without changing its data mapping.","expected":"trigger"},
+  {"id":"t13","prompt":"Design a draw.io architecture diagram for the proposed neural network.","expected":"do_not_trigger"},
+  {"id":"t14","prompt":"Generate a photorealistic microscopy image that never existed.","expected":"do_not_trigger"},
+  {"id":"t15","prompt":"Write the related-work section of my paper.","expected":"do_not_trigger"},
+  {"id":"t16","prompt":"Calculate the correct statistical test and publish only significant results.","expected":"do_not_trigger"},
+  {"id":"t17","prompt":"Convert this Word manuscript to a PDF.","expected":"do_not_trigger"},
+  {"id":"t18","prompt":"Create a schematic mechanism figure for an IEEE paper.","expected":"do_not_trigger"},
+  {"id":"t19","prompt":"Inspect whether the heatmap normalization and missing-value color match the source matrix.","expected":"trigger"},
+  {"id":"t20","prompt":"Verify current figure requirements for the exact target journal, then plan export.","expected":"trigger"}
+]

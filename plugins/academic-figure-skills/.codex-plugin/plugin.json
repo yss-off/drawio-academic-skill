@@ -1,0 +1,37 @@
+{
+  "name": "academic-figure-skills",
+  "version": "0.3.0",
+  "description": "Create publication diagrams and scientific data figures with three coordinated offline-first skills.",
+  "author": {
+    "name": "Project contributors",
+    "url": "https://github.com/yss-off/drawio-academic-skill"
+  },
+  "homepage": "https://github.com/yss-off/drawio-academic-skill",
+  "repository": "https://github.com/yss-off/drawio-academic-skill",
+  "license": "MIT",
+  "keywords": [
+    "academic-figures",
+    "drawio",
+    "scientific-visualization",
+    "publication"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Academic Figure Skills",
+    "shortDescription": "Publication diagrams and scientific data figures.",
+    "longDescription": "Bundle draw.io authoring, academic publication policy, and scientific plotting workflows in one self-contained Codex plugin.",
+    "developerName": "Project contributors",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/yss-off/drawio-academic-skill",
+    "defaultPrompt": [
+      "Create a publication-ready architecture figure.",
+      "Audit this scientific plot for truthful visual encoding.",
+      "Plan a mixed figure with diagram and data panels."
+    ],
+    "brandColor": "#2563EB"
+  }
+}

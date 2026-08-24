@@ -4,7 +4,8 @@ __pycache__/
 .drawio-tmp/
 outputs/
 node_modules/
-/skill/drawio
 .venv/
+build/
 dist/
+*.egg-info/
 *.zip

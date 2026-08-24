@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a deterministic install-ready ZIP from the runtime skill source."""
+"""Build deterministic install-ready ZIPs for the configured runtime skills."""
 
 from __future__ import annotations
 
@@ -10,19 +10,39 @@ import os
 import tempfile
 import tomllib
 import zipfile
+from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXED_TIMESTAMP = (2026, 1, 1, 0, 0, 0)
 
 
-def project_metadata() -> tuple[str, str, Path]:
+@dataclass(frozen=True)
+class SkillConfig:
+    name: str
+    version: str
+    path: Path
+    kind: str
+
+
+def project_metadata() -> tuple[str, list[SkillConfig]]:
     with (ROOT / "pyproject.toml").open("rb") as handle:
         document = tomllib.load(handle)
-    project = document["project"]
-    settings = document["tool"]["drawio_academic_skill"]
-    skill_root = (ROOT / settings["skill_path"]).resolve()
-    return project["version"], settings["skill_name"], skill_root
+    project_version = document["project"]["version"]
+    records = document["tool"]["academic_figure_skills"]["skills"]
+    skills: list[SkillConfig] = []
+    for record in records:
+        path = (ROOT / record["path"]).resolve()
+        path.relative_to(ROOT)
+        skills.append(
+            SkillConfig(
+                name=record["name"],
+                version=record["version"],
+                path=path,
+                kind=record["kind"],
+            )
+        )
+    return project_version, skills
 
 
 def package_files(skill_root: Path) -> list[Path]:
@@ -46,8 +66,50 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def build_package(config: SkillConfig, output_dir: Path) -> dict[str, object]:
+    destination = output_dir / f"{config.name}-{config.version}.zip"
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{destination.name}.", suffix=".tmp", dir=output_dir
+    )
+    os.close(descriptor)
+    temporary = Path(temporary_name)
+    files = package_files(config.path)
+    try:
+        with zipfile.ZipFile(
+            temporary, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9
+        ) as archive:
+            for source in files:
+                relative = source.relative_to(config.path)
+                info = zipfile.ZipInfo(
+                    f"{config.name}/{relative.as_posix()}", FIXED_TIMESTAMP
+                )
+                info.compress_type = zipfile.ZIP_DEFLATED
+                info.external_attr = (source.stat().st_mode & 0o777) << 16
+                archive.writestr(info, source.read_bytes())
+        os.replace(temporary, destination)
+        destination.chmod(0o644)
+    finally:
+        try:
+            temporary.unlink()
+        except FileNotFoundError:
+            pass
+    return {
+        "skill": config.name,
+        "kind": config.kind,
+        "version": config.version,
+        "path": str(destination),
+        "files": len(files),
+        "sha256": sha256(destination),
+    }
+
+
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Package the runtime skill deterministically.")
+    parser = argparse.ArgumentParser(description="Package configured runtime skills.")
+    selection = parser.add_mutually_exclusive_group(required=True)
+    selection.add_argument("--all", action="store_true", help="package every configured skill")
+    selection.add_argument(
+        "--skill", action="append", metavar="NAME", help="package one named skill"
+    )
     parser.add_argument("--output-dir", type=Path, default=ROOT / "dist")
     parser.add_argument("--force", action="store_true")
     return parser
@@ -55,50 +117,42 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    version, skill_name, skill_root = project_metadata()
-    output_dir = args.output_dir.expanduser().resolve()
-    output_dir.mkdir(parents=True, exist_ok=True)
-    destination = output_dir / f"{skill_name}-{version}.zip"
-    if destination.exists() and not args.force:
-        raise SystemExit(f"refusing to overwrite existing package: {destination}")
-
-    descriptor, temporary_name = tempfile.mkstemp(
-        prefix=f".{destination.name}.", suffix=".tmp", dir=output_dir
-    )
-    os.close(descriptor)
-    temporary = Path(temporary_name)
-    files = package_files(skill_root)
     try:
-        with zipfile.ZipFile(
-            temporary, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9
-        ) as archive:
-            for source in files:
-                relative = source.relative_to(skill_root)
-                info = zipfile.ZipInfo(f"{skill_name}/{relative.as_posix()}", FIXED_TIMESTAMP)
-                info.compress_type = zipfile.ZIP_DEFLATED
-                info.external_attr = (source.stat().st_mode & 0o777) << 16
-                archive.writestr(info, source.read_bytes())
-        os.replace(temporary, destination)
-    finally:
-        try:
-            temporary.unlink()
-        except FileNotFoundError:
-            pass
+        project_version, configured = project_metadata()
+        by_name = {skill.name: skill for skill in configured}
+        if len(by_name) != len(configured):
+            raise ValueError("configured skill names must be unique")
+        if args.all:
+            selected = configured
+        else:
+            unknown = sorted(set(args.skill) - set(by_name))
+            if unknown:
+                raise ValueError(f"unknown skill names: {unknown}")
+            selected = [by_name[name] for name in args.skill]
 
-    print(
-        json.dumps(
-            {
-                "status": "written",
-                "path": str(destination),
-                "version": version,
-                "files": len(files),
-                "sha256": sha256(destination),
-            },
-            indent=2,
-            sort_keys=True,
+        output_dir = args.output_dir.expanduser().resolve()
+        output_dir.mkdir(parents=True, exist_ok=True)
+        destinations = [output_dir / f"{item.name}-{item.version}.zip" for item in selected]
+        existing = [str(path) for path in destinations if path.exists()]
+        if existing and not args.force:
+            raise ValueError(f"refusing to overwrite existing packages: {existing}")
+
+        packages = [build_package(item, output_dir) for item in selected]
+        print(
+            json.dumps(
+                {
+                    "status": "written",
+                    "project_version": project_version,
+                    "packages": packages,
+                },
+                indent=2,
+                sort_keys=True,
+            )
         )
-    )
-    return 0
+        return 0
+    except (KeyError, OSError, TypeError, ValueError, tomllib.TOMLDecodeError) as exc:
+        print(json.dumps({"status": "fail", "error": str(exc)}))
+        return 2
 
 
 if __name__ == "__main__":
