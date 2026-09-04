@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.2 - 2026-09-04
+
+- 将公开仓库统一命名为 `research-figure-kit`，保留兼容的插件 ID 和三个 skill 名；
+- 默认 README 改为面向全球 AI/Codex 开发者的英文首页，并保留独立中文说明；
+- 新增项目主视觉、状态徽章、能力矩阵、安装示例、质量门禁和仓库导航；
+- 插件公开显示名更新为 Research Figure Kit，统一作者、主页、仓库和安全报告链接；
+- 新增 GitHub Actions 持续集成、固定开发依赖和 Dependabot 配置，成功构建可下载的确定性插件包。
+
 ## 0.3.1 - 2026-09-02
 
 - 将 `drawio-academic-skills` 更新为 0.1.1，新增关系敏感图的语义边界与线框门禁；

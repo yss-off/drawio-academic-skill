@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.13"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Install development dependencies
+        run: python -m pip install --requirement requirements-dev.txt
+
+      - name: Run repository test entry point
+        run: pytest -q
+
+      - name: Validate routing and project structure
+        run: |
+          make test-routing
+          make check
+
+      - name: Validate bundled Draw.io compatibility
+        run: make check-base
+
+      - name: Build deterministic plugin package
+        if: matrix.python-version == '3.13'
+        run: make package
+
+      - name: Upload plugin package
+        if: matrix.python-version == '3.13'
+        uses: actions/upload-artifact@v7
+        with:
+          name: academic-figure-skills-${{ github.sha }}
+          path: dist/academic-figure-skills-*.zip
+          if-no-files-found: error
+          retention-days: 14

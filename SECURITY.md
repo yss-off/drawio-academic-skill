@@ -8,7 +8,7 @@
 
 请不要在公开 issue、discussion、pull request 或示例文件中披露尚未修复的漏洞、访问令牌、私有数据或可利用细节。
 
-请使用 GitHub 的 [Private vulnerability reporting](https://github.com/yss-off/drawio-academic-skill/security/advisories/new) 提交报告，并包含：
+请使用 GitHub 的 [Private vulnerability reporting](https://github.com/yss-off/research-figure-kit/security/advisories/new) 提交报告，并包含：
 
 - 受影响版本或提交；
 - 最小复现步骤；

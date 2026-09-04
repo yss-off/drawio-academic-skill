@@ -1,6 +1,6 @@
 [project]
 name = "academic-figure-skills"
-version = "0.3.1"
+version = "0.3.2"
 description = "Self-contained Codex plugin for publication diagrams and scientific data figures"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -15,7 +15,7 @@ testpaths = ["tests"]
 [tool.academic_figure_skills.plugin]
 name = "academic-figure-skills"
 path = "plugins/academic-figure-skills"
-version = "0.3.1"
+version = "0.3.2"
 marketplace_path = ".agents/plugins/marketplace.json"
 
 [[tool.academic_figure_skills.skills]]
