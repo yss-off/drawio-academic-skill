@@ -8,6 +8,7 @@
     {"id": "no-implicit-overwrite", "evidence": "manifest output refuses an existing destination unless force is explicit"},
     {"id": "existing-examples-strict", "evidence": "all bundled example and template YAML files pass sibling-base strict validation"},
     {"id": "representative-forward-test", "evidence": "one bundled architecture example exports editable drawio plus standalone SVG and is visually inspected"},
+    {"id": "semantic-boundary-contract", "evidence": "anonymous manifest fixtures validate non-edges, forbidden inferences, cross-cutting support regions, and the wireframe approval gate"},
     {"id": "installed-copy-unchanged", "evidence": "final installed-tree hash and latest mtime are recorded after validation; the latest installed mtime predates source implementation"}
   ]
 }

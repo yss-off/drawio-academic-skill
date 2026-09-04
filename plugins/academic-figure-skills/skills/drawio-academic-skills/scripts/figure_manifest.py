@@ -55,6 +55,7 @@ def manifest_skeleton(figure_id: str, title: str, figure_type: str) -> dict[str,
             "intended_claim": "pending",
             "language": "pending",
             "palette": "pending",
+            "color_policy": "pending",
             "print_target": "pending",
         },
         "semantic_inventory": {
@@ -62,11 +63,19 @@ def manifest_skeleton(figure_id: str, title: str, figure_type: str) -> dict[str,
             "edges": [],
             "abbreviations": [],
             "formulas": [],
+            "non_edges": [],
+            "forbidden_inferences": [],
+            "cross_cutting_regions": [],
         },
         "layout": {
             "candidates": [],
             "selected_id": None,
             "selection_reason": None,
+            "wireframe_gate": {
+                "status": "pending",
+                "review_artifact": None,
+                "decision": None,
+            },
         },
         "reference_selection": {
             "index_version": "1.0",
@@ -117,7 +126,10 @@ def _require_object(
 
 
 def _validate_inventory(
-    inventory: dict[str, Any], findings: list[dict[str, str]]
+    inventory: dict[str, Any],
+    findings: list[dict[str, str]],
+    *,
+    require_boundary_fields: bool,
 ) -> None:
     nodes = inventory.get("nodes")
     edges = inventory.get("edges")
@@ -146,6 +158,7 @@ def _validate_inventory(
             _finding(findings, "node_role", f"{path}.role", "must be non-empty")
 
     edge_ids: set[str] = set()
+    edge_pairs: set[tuple[str, str]] = set()
     for index, edge in enumerate(edges):
         path = f"semantic_inventory.edges[{index}]"
         if not isinstance(edge, dict):
@@ -167,6 +180,10 @@ def _validate_inventory(
                     f"{path}.{endpoint}",
                     f"must reference a declared node ID; got {value!r}",
                 )
+        source = edge.get("source")
+        target = edge.get("target")
+        if isinstance(source, str) and isinstance(target, str):
+            edge_pairs.add((source, target))
         if not isinstance(edge.get("relation"), str) or not edge["relation"].strip():
             _finding(findings, "edge_relation", f"{path}.relation", "must be non-empty")
         if not isinstance(edge.get("line_style"), str) or not edge["line_style"].strip():
@@ -181,8 +198,116 @@ def _validate_inventory(
                 "must be a list",
             )
 
+    boundary_lists: dict[str, list[Any]] = {}
+    for key in ("non_edges", "forbidden_inferences", "cross_cutting_regions"):
+        value = inventory.get(key)
+        if not isinstance(value, list):
+            _finding(
+                findings,
+                "semantic_boundary_fields_required",
+                f"semantic_inventory.{key}",
+                "must be a list; use an empty list when no boundary applies",
+                severity="error" if require_boundary_fields else "warning",
+            )
+            value = []
+        boundary_lists[key] = value
 
-def _validate_layout(layout: dict[str, Any], findings: list[dict[str, str]]) -> None:
+    non_edge_pairs: set[tuple[str, str]] = set()
+    for index, non_edge in enumerate(boundary_lists["non_edges"]):
+        path = f"semantic_inventory.non_edges[{index}]"
+        if not isinstance(non_edge, dict):
+            _finding(findings, "non_edge_object", path, "must be an object")
+            continue
+        source = non_edge.get("source")
+        target = non_edge.get("target")
+        for endpoint, value in (("source", source), ("target", target)):
+            if value not in node_ids:
+                _finding(
+                    findings,
+                    "unknown_non_edge_endpoint",
+                    f"{path}.{endpoint}",
+                    f"must reference a declared node ID; got {value!r}",
+                )
+        if not isinstance(non_edge.get("reason"), str) or not non_edge["reason"].strip():
+            _finding(findings, "non_edge_reason", f"{path}.reason", "must be non-empty")
+        if isinstance(source, str) and isinstance(target, str):
+            pair = (source, target)
+            if pair in non_edge_pairs:
+                _finding(findings, "duplicate_non_edge", path, f"duplicate pair {pair!r}")
+            non_edge_pairs.add(pair)
+            if pair in edge_pairs:
+                _finding(
+                    findings,
+                    "prohibited_edge_present",
+                    path,
+                    f"declared non-edge {source!r}->{target!r} also exists in semantic_inventory.edges",
+                )
+
+    inference_ids: set[str] = set()
+    for index, inference in enumerate(boundary_lists["forbidden_inferences"]):
+        path = f"semantic_inventory.forbidden_inferences[{index}]"
+        if not isinstance(inference, dict):
+            _finding(findings, "forbidden_inference_object", path, "must be an object")
+            continue
+        inference_id = inference.get("id")
+        if not isinstance(inference_id, str) or not SAFE_ID.fullmatch(inference_id):
+            _finding(findings, "forbidden_inference_id", f"{path}.id", "must be a stable safe ID")
+        elif inference_id in inference_ids:
+            _finding(findings, "duplicate_forbidden_inference_id", f"{path}.id", "must be unique")
+        else:
+            inference_ids.add(inference_id)
+        for field in ("statement", "prevention"):
+            value = inference.get(field)
+            if not isinstance(value, str) or not value.strip():
+                _finding(findings, "forbidden_inference_field", f"{path}.{field}", "must be non-empty")
+
+    region_ids: set[str] = set()
+    for index, region in enumerate(boundary_lists["cross_cutting_regions"]):
+        path = f"semantic_inventory.cross_cutting_regions[{index}]"
+        if not isinstance(region, dict):
+            _finding(findings, "cross_cutting_region_object", path, "must be an object")
+            continue
+        region_id = region.get("id")
+        if not isinstance(region_id, str) or not SAFE_ID.fullmatch(region_id):
+            _finding(findings, "cross_cutting_region_id", f"{path}.id", "must be a stable safe ID")
+        elif region_id in region_ids:
+            _finding(findings, "duplicate_cross_cutting_region_id", f"{path}.id", "must be unique")
+        else:
+            region_ids.add(region_id)
+        for field in ("label", "semantic_role"):
+            value = region.get(field)
+            if not isinstance(value, str) or not value.strip():
+                _finding(findings, "cross_cutting_region_field", f"{path}.{field}", "must be non-empty")
+        members = region.get("member_node_ids")
+        if not isinstance(members, list):
+            _finding(findings, "cross_cutting_members", f"{path}.member_node_ids", "must be a list")
+        else:
+            for member_index, member in enumerate(members):
+                if member not in node_ids:
+                    _finding(
+                        findings,
+                        "unknown_cross_cutting_member",
+                        f"{path}.member_node_ids[{member_index}]",
+                        f"must reference a declared node ID; got {member!r}",
+                    )
+        constraints = region.get("presentation_constraints")
+        if not isinstance(constraints, list) or not constraints or any(
+            not isinstance(item, str) or not item.strip() for item in constraints
+        ):
+            _finding(
+                findings,
+                "cross_cutting_constraints",
+                f"{path}.presentation_constraints",
+                "must contain at least one non-empty presentation constraint",
+            )
+
+
+def _validate_layout(
+    layout: dict[str, Any],
+    findings: list[dict[str, str]],
+    *,
+    require_wireframe_gate: bool,
+) -> None:
     candidates = layout.get("candidates")
     if not isinstance(candidates, list):
         _finding(findings, "layout_candidates", "layout.candidates", "must be a list")
@@ -215,6 +340,49 @@ def _validate_layout(layout: dict[str, Any], findings: list[dict[str, str]]) -> 
             "layout_selection_reason",
             "layout.selection_reason",
             "must explain why the candidate was selected",
+        )
+    wireframe_gate = layout.get("wireframe_gate")
+    if not isinstance(wireframe_gate, dict):
+        _finding(
+            findings,
+            "wireframe_gate_required",
+            "layout.wireframe_gate",
+            "must record approved, pending, or not_applicable wireframe review",
+            severity="error" if require_wireframe_gate else "warning",
+        )
+        return
+    gate_status = wireframe_gate.get("status")
+    if gate_status not in {"pending", "approved", "not_applicable"}:
+        _finding(
+            findings,
+            "wireframe_gate_status",
+            "layout.wireframe_gate.status",
+            "must be pending, approved, or not_applicable",
+        )
+    elif require_wireframe_gate and gate_status == "pending":
+        _finding(
+            findings,
+            "wireframe_gate_pending",
+            "layout.wireframe_gate.status",
+            "must be approved or explicitly not_applicable before strict/final validation",
+        )
+    decision = wireframe_gate.get("decision")
+    if gate_status in {"approved", "not_applicable"} and (
+        not isinstance(decision, str) or not decision.strip()
+    ):
+        _finding(
+            findings,
+            "wireframe_gate_decision",
+            "layout.wireframe_gate.decision",
+            "must explain the approval or why a wireframe was not applicable",
+        )
+    review_artifact = wireframe_gate.get("review_artifact")
+    if review_artifact is not None and not isinstance(review_artifact, str):
+        _finding(
+            findings,
+            "wireframe_review_artifact",
+            "layout.wireframe_gate.review_artifact",
+            "must be a string path or null",
         )
 
 
@@ -300,6 +468,7 @@ def validate_manifest(
     status = document.get("status")
     if status not in MANIFEST_STATUSES:
         _finding(findings, "manifest_status", "status", f"unsupported status {status!r}")
+    finalizing = status == "accepted" or strict
 
     contract = _require_object(document, "contract", findings)
     if contract.get("figure_type") not in FIGURE_TYPES:
@@ -326,15 +495,37 @@ def validate_manifest(
         "intended_claim",
         "language",
         "palette",
+        "color_policy",
         "print_target",
     ):
         if key not in contract:
             _finding(findings, "contract_field", f"contract.{key}", "is required")
+    if contract.get("color_policy") not in {
+        "pending",
+        "color",
+        "grayscale",
+        "black-white",
+        "strict-black-white",
+    }:
+        _finding(
+            findings,
+            "color_policy",
+            "contract.color_policy",
+            "must use the declared color-policy enum",
+        )
 
     inventory = _require_object(document, "semantic_inventory", findings)
-    _validate_inventory(inventory, findings)
+    _validate_inventory(
+        inventory,
+        findings,
+        require_boundary_fields=finalizing,
+    )
     layout = _require_object(document, "layout", findings)
-    _validate_layout(layout, findings)
+    _validate_layout(
+        layout,
+        findings,
+        require_wireframe_gate=finalizing,
+    )
     references = _require_object(document, "reference_selection", findings)
     selected_references = references.get("selected_ids")
     if not isinstance(selected_references, list):
@@ -375,7 +566,7 @@ def validate_manifest(
             "must be an object",
         )
 
-    if status == "accepted" or strict:
+    if finalizing:
         if not layout.get("selected_id"):
             _finding(findings, "selected_layout_required", "layout.selected_id", "is required")
         if not inventory.get("nodes"):

@@ -23,10 +23,11 @@
     "status": {"enum": ["planning", "rendered", "review", "accepted"]},
     "contract": {
       "type": "object",
-      "required": ["figure_type", "venue", "communication_goal", "intended_claim", "language", "palette", "print_target"],
+      "required": ["figure_type", "venue", "communication_goal", "intended_claim", "language", "palette", "color_policy", "print_target"],
       "properties": {
         "figure_type": {"enum": ["architecture", "workflow", "roadmap"]},
-        "delivery_class": {"enum": ["pending", "raster-publication", "vector-submission", "draft-preview"]}
+        "delivery_class": {"enum": ["pending", "raster-publication", "vector-submission", "draft-preview"]},
+        "color_policy": {"enum": ["pending", "color", "grayscale", "black-white", "strict-black-white"]}
       },
       "additionalProperties": true
     },
@@ -37,7 +38,48 @@
         "nodes": {"type": "array"},
         "edges": {"type": "array"},
         "abbreviations": {"type": "array"},
-        "formulas": {"type": "array"}
+        "formulas": {"type": "array"},
+        "non_edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["source", "target", "reason"],
+            "properties": {
+              "source": {"type": "string"},
+              "target": {"type": "string"},
+              "reason": {"type": "string", "minLength": 1}
+            },
+            "additionalProperties": false
+          }
+        },
+        "forbidden_inferences": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "statement", "prevention"],
+            "properties": {
+              "id": {"type": "string"},
+              "statement": {"type": "string", "minLength": 1},
+              "prevention": {"type": "string", "minLength": 1}
+            },
+            "additionalProperties": false
+          }
+        },
+        "cross_cutting_regions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "label", "semantic_role", "member_node_ids", "presentation_constraints"],
+            "properties": {
+              "id": {"type": "string"},
+              "label": {"type": "string", "minLength": 1},
+              "semantic_role": {"type": "string", "minLength": 1},
+              "member_node_ids": {"type": "array", "items": {"type": "string"}},
+              "presentation_constraints": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+            },
+            "additionalProperties": false
+          }
+        }
       },
       "additionalProperties": false
     },
@@ -47,7 +89,17 @@
       "properties": {
         "candidates": {"type": "array"},
         "selected_id": {"type": ["string", "null"]},
-        "selection_reason": {"type": ["string", "null"]}
+        "selection_reason": {"type": ["string", "null"]},
+        "wireframe_gate": {
+          "type": "object",
+          "required": ["status", "review_artifact", "decision"],
+          "properties": {
+            "status": {"enum": ["pending", "approved", "not_applicable"]},
+            "review_artifact": {"type": ["string", "null"]},
+            "decision": {"type": ["string", "null"]}
+          },
+          "additionalProperties": false
+        }
       },
       "additionalProperties": true
     },

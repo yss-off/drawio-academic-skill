@@ -30,7 +30,7 @@ Resolve shared resources relative to this overlay directory:
 - References `../drawio/references/docs/`, `../drawio/references/official/`, `../drawio/references/workflows/`, `../drawio/references/examples/`; shared rework contract `../drawio/references/workflows/visual-review.md`
 - Built-in style presets `../drawio/styles/built-in/`
 
-Overlay-local assets: `references/docs/publication-overlay.md`, `academic-figure-playbook.md`, `closed-loop-scientific-figure-checklist.md`, `academic-export-checklist.md`, `layout-candidates-and-manifest.md`, `references/reference-index.json`, `references/examples/`, `references/templates/`, `assets/schemas/figure-manifest.schema.json`, and `scripts/` planning/evidence helpers.
+Overlay-local assets: `references/docs/publication-overlay.md`, `academic-figure-playbook.md`, `semantic-and-layout-gates.md`, `closed-loop-scientific-figure-checklist.md`, `academic-export-checklist.md`, `layout-candidates-and-manifest.md`, `references/reference-index.json`, `references/examples/`, `references/templates/`, `assets/schemas/figure-manifest.schema.json`, and `scripts/` planning/evidence helpers.
 
 If `../drawio/scripts/cli.js` is missing, stop and report that the sibling base skill must be installed next to this overlay; never silently recreate or vendor-copy base resources into the overlay.
 
@@ -46,7 +46,7 @@ If `../drawio/scripts/cli.js` is missing, stop and report that the sibling base 
 
 ## Academic Preflight
 
-Before generating or editing, determine and state: venue/audience; figure type (`architecture`, `roadmap`, or `workflow`); primary delivery class; color policy; caption/legend/title, formula, terminology/abbreviation, and text-fidelity needs; export expectations. If the publication target is unknown, use `draft-preview` and report that publication delivery is unresolved. Estimate the **node budget** (authoritative targets, thresholds, and split strategies: `references/docs/academic-figure-playbook.md § Node Budget Management`); over target, confirm a split/simplify strategy with the user and start from the compact patterns in `references/templates/`. For complex, ambiguous, multi-loop, paper-derived, or reference-redraw tasks, query the local reference index and compare 2–3 structured layout plans before authoring final YAML. Full decision detail: `references/docs/publication-overlay.md § Required Academic Decisions` and `references/docs/layout-candidates-and-manifest.md`.
+Before generating or editing, determine and state: venue/audience; figure type (`architecture`, `roadmap`, or `workflow`); primary delivery class; color policy; caption/legend/title, formula, terminology/abbreviation, and text-fidelity needs; export expectations. If the publication target is unknown, use `draft-preview` and report that publication delivery is unresolved. Estimate the **node budget** (authoritative targets, thresholds, and split strategies: `references/docs/academic-figure-playbook.md § Node Budget Management`); over target, confirm a split/simplify strategy with the user and start from the compact patterns in `references/templates/`. For complex, ambiguous, multi-loop, paper-derived, reference-redraw, or relation-sensitive tasks, query the local reference index, compare 2–3 structured layout plans, and record prohibited edges, forbidden inferences, and cross-cutting regions before authoring final YAML. Full decision detail: `references/docs/publication-overlay.md § Required Academic Decisions`, `references/docs/layout-candidates-and-manifest.md`, and `references/docs/semantic-and-layout-gates.md`.
 
 ### Palette Preflight
 
@@ -60,7 +60,7 @@ Extract only what the figure needs from papers, reference images, or text-only p
 
 ## Diagram Plan Gate
 
-For complex paper-derived figures or academic image-replication work, present 2–3 concise, structurally distinct layout plans and wait for one selection before detailed YAML/rendering; simple academic diagrams may skip the gate. Candidates must preserve the same scientific inventory and expose their reading axis, use-when condition, and main risk. For every non-primary or ambiguous arrow, include `source --relation--> target` so direction and loop closure are reviewable before layout. Workflow: `references/docs/layout-candidates-and-manifest.md`; source template: `references/docs/publication-overlay.md § Diagram Plan Gate`.
+For complex paper-derived figures, academic image-replication work, or any figure whose adjacency could imply unsupported cross-domain causality, present 2–3 concise, structurally distinct layout plans and wait for one selection before detailed YAML/rendering; simple academic diagrams may skip the gate only with a recorded reason. Candidates must preserve the same scientific inventory and expose their reading axis, use-when condition, and main risk. For every non-primary or ambiguous arrow, include `source --relation--> target`; also record directed `non_edges`, forbidden interpretations, and cross-cutting support regions. Review a text or monochrome wireframe at the target aspect ratio and record `layout.wireframe_gate` before typography and visual polish. Workflow: `references/docs/layout-candidates-and-manifest.md` and `references/docs/semantic-and-layout-gates.md`; source template: `references/docs/publication-overlay.md § Diagram Plan Gate`.
 
 ## Optional Image Preview
 
@@ -70,9 +70,9 @@ Only after the diagram plan is confirmed, and only with privacy approval before 
 
 Choose one route, then load only its files. `overlay` = this directory; `base` = the sibling, resolved from this directory.
 
-- `academic-create` — paper, thesis, IEEE, manuscript, journal, publication-ready figure → overlay `references/docs/publication-overlay.md`, `academic-figure-playbook.md`, `academic-export-checklist.md`; for feedback, fallback, retry, or multi-loop figures also load `closed-loop-scientific-figure-checklist.md`; base `../drawio/references/workflows/create.md`
+- `academic-create` — paper, thesis, IEEE, manuscript, journal, publication-ready figure → overlay `references/docs/publication-overlay.md`, `academic-figure-playbook.md`, `academic-export-checklist.md`; for cross-domain, support-band, feedback, fallback, retry, or multi-loop figures also load `semantic-and-layout-gates.md` and, when loops are present, `closed-loop-scientific-figure-checklist.md`; base `../drawio/references/workflows/create.md`
 - `math-formula` — formula, equation, LaTeX, AsciiMath, MathJax, 公式 → base `../drawio/references/docs/math-typesetting.md`, `design-system/formulas.md`
-- `edit` — modify an academic bundle or imported `.drawio` → base `../drawio/references/workflows/edit.md`, `../drawio/references/docs/migration-readiness.md`
+- `edit` — modify an academic bundle or imported `.drawio` → base `../drawio/references/workflows/edit.md`, `../drawio/references/docs/migration-readiness.md`; when the edit changes lanes, containers, causality, or cross-cutting regions also load overlay `references/docs/semantic-and-layout-gates.md`
 - `replicate` — redraw screenshot, image, SVG, or reference paper figure → overlay `references/docs/publication-overlay.md`; base `../drawio/references/workflows/replicate.md`, `../drawio/references/docs/design-system/specification.md`, `color-guide.md`
 - `base-capabilities` — code/config/live imports, raster extraction, multi-page bundles, AI/SysML/BPMN stencils, or offline postprocess before publication checks → base `../drawio/references/docs/upstream-capability-compatibility.md`; overlay `references/docs/publication-overlay.md`
 - `stencil-heavy` — academic cloud, network, AWS, Azure, GCP, Cisco, Kubernetes figure → base `../drawio/references/docs/stencil-library-guide.md`, `ieee-network-diagrams.md`, `../drawio/references/official/xml-reference.md`
@@ -113,8 +113,8 @@ Record the selected class in `manifest.contract.delivery_class`. Honor extra for
 
 1. Classify the figure as `architecture`, `roadmap`, or `workflow`; for complex tasks, query `scripts/reference_index.py`, generate 2–3 plans with `scripts/layout_candidates.py`, and select one before detailed rendering.
 2. Initialize `.drawio-tmp/<name>/<name>.manifest.json` with `scripts/figure_manifest.py`; record the contract, reference IDs, candidates, and selection reason.
-3. Freeze the approved semantic contract before layout work: stable node/edge IDs, exact labels, `source --relation--> target`, line-style meaning, branch conditions, formulas, and abbreviations. Treat later spacing/routing repairs as geometry-only unless the user separately approves a content change.
-4. Draft or normalize the YAML spec as the canonical source; shorten labels before shrinking fonts.
+3. Freeze the approved semantic contract before layout work: stable node/edge IDs, exact labels, `source --relation--> target`, directed non-edges, forbidden inferences, cross-cutting regions, line-style meaning, branch conditions, formulas, and abbreviations.
+4. Approve or explicitly waive a low-detail wireframe at the target aspect ratio, then draft or normalize the YAML spec as the canonical source. Treat later spacing/routing repairs as geometry-only unless the user separately approves a content change; shorten labels before shrinking fonts.
 5. Validate and render through the sibling base CLI, then self-check the exported artifact and build the final manifest before reporting:
 
 ```bash
@@ -161,9 +161,14 @@ Do not claim completion until:
 - captions, legends, callouts, formulas, and edge labels are not clipped or placed on connector lines; legends compact (single multi-line text node)
 - every condition or branch label has one visually unambiguous owning connector: place it in that edge's local corridor, normally near the branch point, with visible clearance from node borders and unrelated connectors; whitespace proximity alone must not make it read as a node annotation
 - every arrow has a confirmed `source --relation--> target` meaning; process, feedback, control/fallback, and progression connectors remain distinguishable in grayscale; cross-axis arrows do not imply unsupported causality
+- semantic inventory records directed non-edges, forbidden inferences, and cross-cutting regions, using empty lists when none apply; no declared non-edge is present as an edge
+- `layout.wireframe_gate` is approved or explicitly not applicable with a reason before strict/final delivery; structural rework resets the gate
+- cross-cutting support, deployment, validation, evidence, or governance regions do not read as numbered process lanes unless they actually are sequential processing stages
+- repeated title, peer-node, lane, support-region, and bottom-note clearances are consistent at intended page size; visible title ink is clear of both the container border and the first content row
 - feedback, fallback, retry, and multi-loop figures pass `references/docs/closed-loop-scientific-figure-checklist.md`, including functional loop naming, role-based endpoint ports, separated endpoint slots/corridors, orthogonal endpoint legs, balanced grid spacing, border clearance, label ownership, and intended-page-scale inspection
 - every Latin-letter abbreviation is expanded at its first figure-visible use, or defined earlier in a figure-internal legend/caption when the full form would overcrowd a node
 - colors are not the only carrier of meaning; `meta.palette` matches the venue decision; `PALETTE_PRINT_GATE` is clear — offer `ieee-bw`/`tol-high-contrast` when strict print safety fails
+- an explicit pure black-and-white request uses manifest `contract.color_policy: strict-black-white`; gray or colored visible fills/strokes are recorded as `strict-monochrome-violation`, not accepted as a grayscale interpretation
 - the visual self-check followed sibling base `../drawio/references/workflows/visual-review.md` on the selected class's exported primary artifact; academic checks additionally cover A4 readability, caption/legend, formulas, print meaning, and venue constraints
 - for a generated DOCX, verify that the embedded media bytes match the accepted publication PNG; for a generated PDF, verify the embedded image dimensions and at least 300ppi effective resolution, then inspect the actual rendered page
 - requested Desktop exports were attempted or reported unavailable; no MCP config, server, or live backend required

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1 - 2026-09-02
+
+- 将 `drawio-academic-skills` 更新为 0.1.1，新增关系敏感图的语义边界与线框门禁；
+- figure manifest 新增 `non_edges`、`forbidden_inferences`、`cross_cutting_regions`、`wireframe_gate` 和显式 `color_policy`；
+- manifest 校验器可拒绝已声明禁止却实际存在的边、未知边界端点、重复禁止误读、未知跨域成员和未完成的线框门禁；
+- 新增匿名语义边界回归案例、学术视觉问题分类、标题/泳道/支撑区间距审查和严格纯黑白规则；
+- 保持 bundled `drawio` v2.7.0 上游源码不变，未同步或安装任何运行时副本。
+
 ## 0.3.0 - 2026-08-20
 
 - 将工程重构为 `academic-figure-skills` skills-only Codex 插件，并加入 repo marketplace；

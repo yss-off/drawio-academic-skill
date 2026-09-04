@@ -96,6 +96,8 @@ Once selected, freeze the semantic inventory before geometry work:
 - formulas and abbreviation definitions; and
 - panel/section membership.
 
+For relation-sensitive figures, also freeze directed `non_edges`, `forbidden_inferences`, and `cross_cutting_regions`. Then review a low-detail wireframe at the target aspect ratio and record `layout.wireframe_gate` as `approved`, `pending`, or `not_applicable` with a reason. A structural redesign resets this gate. See `semantic-and-layout-gates.md`.
+
 A later layout-only repair may change bounds, waypoints, ports, and label offsets. It must not silently change this inventory.
 
 ## Figure-manifest contract
@@ -113,8 +115,8 @@ python scripts/figure_manifest.py init \
 The manifest schema is `assets/schemas/figure-manifest.schema.json`. Its top-level fields are:
 
 - `contract`: venue, figure type, primary delivery class, communication goal, intended claim, language, palette, and print target;
-- `semantic_inventory`: nodes, edges, abbreviations, and formulas;
-- `layout`: compared candidates, selected ID, and selection reason;
+- `semantic_inventory`: nodes, edges, abbreviations, formulas, non-edges, forbidden inferences, and cross-cutting regions;
+- `layout`: compared candidates, selected ID, selection reason, and wireframe gate;
 - `reference_selection`: index version, selected/rejected IDs, and adopted abstract features;
 - `render`: canonical YAML path, artifacts, and exact base CLI commands;
 - `qa`: deterministic, visual, and publication checks plus residual risks; and
@@ -152,7 +154,7 @@ QA layers remain separate:
 - `visual`: exported-artifact inspection, round, and structured issues;
 - `publication`: print size, caption/legend, formulas, abbreviations, palette/font, and venue-specific manual checks.
 
-The manifest validator checks record structure and hashes. It cannot validate scientific meaning, copyright safety, visual quality, or current venue rules.
+The manifest validator checks record structure and hashes. It also rejects unknown non-edge endpoints, a declared non-edge that is present as an edge, duplicate forbidden-inference IDs, unknown cross-cutting members, and a pending wireframe gate in strict/final validation. It cannot prove that every forbidden inference has been visually eliminated, or validate scientific meaning, copyright safety, visual quality, or current venue rules.
 
 Set exactly one primary `contract.delivery_class`: `raster-publication`, `vector-submission`, or `draft-preview`. Strict validation requires PNG for raster publication, PDF or `text_mode: paths` SVG for vector submission, and SVG for draft preview. `.drawio` remains mandatory in every class; secondary requested formats may be recorded alongside the primary artifact.
 

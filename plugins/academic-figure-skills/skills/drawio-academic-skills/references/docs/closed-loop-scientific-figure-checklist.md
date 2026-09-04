@@ -9,6 +9,8 @@ Use this checklist for paper or manuscript figures containing feedback, fallback
 3. Assign one stable meaning to each line style and state it in the legend or caption. A practical default is solid for the primary operational flow and dashed for fallback, retry, exception, or conditional return; do not use dashed lines merely as decoration.
 4. Do not let proximity imply causality. A capability level, policy band, or contextual axis connects to a process node only when the manuscript establishes an explicit mapping, constraint, temporal, or causal relation.
 5. Freeze the accepted content contract before a layout-only revision. Record stable node and edge IDs, exact visible labels, `source --relation--> target`, branch conditions, and line-style meanings. A spacing, routing, or port repair may change bounds, waypoints, connection points, and `labelOffset`; it must not silently rewrite the scientific content.
+6. Record directed non-edges and forbidden inferences for independently terminating branches, monitoring-only outputs, and cross-domain paths that must not control the main loop. Record support or governance bands as cross-cutting regions with explicit presentation constraints.
+7. Approve a low-detail wireframe at the target aspect ratio before detailed connector labels and typography. If a later repair moves the major process groups, reset the wireframe gate.
 
 ## Layout and Routing
 
@@ -21,6 +23,7 @@ Use this checklist for paper or manuscript figures containing feedback, fallback
 7. Establish the layout grid before routing. Align peer nodes to common row or column centerlines, keep equivalent nodes the same size, and use consistent gaps within a lane. Reserve separate corridors for the primary path, outer feedback, exception/fallback, and validation/retry paths before placing their connectors.
 8. Assign ports by scientific role rather than by visual convenience. Keep primary-flow input/output on opposing faces when possible; use secondary top/bottom faces for feedback or re-entry; give exceptional and conditional paths distinct slots. The final segment must meet the target face orthogonally, and the arrowhead must read as terminating at that boundary rather than floating outside, entering a corner, or running along the border.
 9. Prefer the simplest route that preserves semantic separation: straight for aligned primary edges and low-bend orthogonal routes for returns. A large detour used only to occupy whitespace weakens the hierarchy and is a layout defect.
+10. Keep repeated container-title offsets, title-to-first-row clearance, peer-node gaps, and gaps between sibling lanes consistent. A support region must retain enough separation that it does not read as the next numbered process lane.
 
 ## Labels and Conditions
 
@@ -37,7 +40,7 @@ Use this checklist for paper or manuscript figures containing feedback, fallback
 1. For Chinese manuscript figures that require 宋体 and Times New Roman, request a stack such as `Times New Roman,SimSun,<installed Songti fallback>`. The fallback is environment-specific.
 2. Verify typography at three layers: the YAML/theme request, the generated `.drawio`/SVG `fontFamily`, and the fonts actually installed or embedded by the export environment. A `SimSun` name in the stack does not prove that SimSun rendered.
 3. If SimSun is unavailable, retain it first for target-system resolution, use an installed Songti fallback for the local export, and disclose the fallback. Do not silently substitute Noto Serif CJK SC when the requirement is exact SimSun.
-4. For black-and-white output, use dark enough strokes and a dash cadence that survives scaling. Pale gray dashed lines that look acceptable on screen may disappear in Word/PDF or print.
+4. Distinguish grayscale from pure black-and-white. When the request is `strict-black-white`, visible fills and strokes use only black or white; gray is a defect rather than an acceptable hierarchy token. Use line weight, spacing, labels, and dash cadence to retain hierarchy.
 
 ## Final Evidence Gate
 

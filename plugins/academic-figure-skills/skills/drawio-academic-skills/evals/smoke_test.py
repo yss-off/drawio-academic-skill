@@ -39,6 +39,7 @@ def accepted_manifest(drawio: Path, svg: Path) -> dict:
             "intended_claim": "structural smoke test only",
             "language": "en",
             "palette": "ieee-bw",
+            "color_policy": "strict-black-white",
             "print_target": "not_applicable",
         }
     )
@@ -47,6 +48,7 @@ def accepted_manifest(drawio: Path, svg: Path) -> dict:
             "nodes": [
                 {"id": "input", "label": "Input", "role": "source"},
                 {"id": "output", "label": "Output", "role": "sink"},
+                {"id": "support", "label": "Shared support", "role": "cross-cutting support"},
             ],
             "edges": [
                 {
@@ -55,6 +57,32 @@ def accepted_manifest(drawio: Path, svg: Path) -> dict:
                     "target": "output",
                     "relation": "produces",
                     "line_style": "solid",
+                }
+            ],
+            "non_edges": [
+                {
+                    "source": "support",
+                    "target": "output",
+                    "reason": "The support band must not read as a process input.",
+                }
+            ],
+            "forbidden_inferences": [
+                {
+                    "id": "support-controls-output",
+                    "statement": "Shared support directly controls the output stage.",
+                    "prevention": "Keep the support region unnumbered and outside the process arrows.",
+                }
+            ],
+            "cross_cutting_regions": [
+                {
+                    "id": "support-band",
+                    "label": "Shared support",
+                    "semantic_role": "non-sequential engineering support",
+                    "member_node_ids": ["support"],
+                    "presentation_constraints": [
+                        "Must not be numbered as a process lane.",
+                        "Must not connect to the main flow without an explicit relation.",
+                    ],
                 }
             ],
         }
@@ -66,6 +94,11 @@ def accepted_manifest(drawio: Path, svg: Path) -> dict:
         ],
         "selected_id": "architecture-layered",
         "selection_reason": "The confirmed relation is a single left-to-right path.",
+        "wireframe_gate": {
+            "status": "approved",
+            "review_artifact": None,
+            "decision": "A text wireframe confirmed one process path and one non-process support band.",
+        },
     }
     document["reference_selection"]["selected_ids"] = ["example-system-architecture"]
     document["render"].update(
@@ -172,7 +205,7 @@ class ManifestTests(unittest.TestCase):
 
     def test_known_bad_manifest_cases(self) -> None:
         fixture = load_fixture("manifest-known-bad.json")
-        self.assertEqual(10, len(fixture["cases"]))
+        self.assertEqual(15, len(fixture["cases"]))
         for case in fixture["cases"]:
             with self.subTest(case=case["id"]):
                 document = copy.deepcopy(self.valid)
@@ -199,6 +232,30 @@ class ManifestTests(unittest.TestCase):
                     document["contract"]["venue"] = "pending"
                 elif mutation == "artifact_hash_mismatch":
                     document["render"]["artifacts"][0]["sha256"] = "0" * 64
+                elif mutation == "unknown_non_edge_endpoint":
+                    document["semantic_inventory"]["non_edges"][0]["source"] = "missing"
+                elif mutation == "prohibited_edge_present":
+                    document["semantic_inventory"]["edges"].append(
+                        {
+                            "id": "forbidden-flow",
+                            "source": "support",
+                            "target": "output",
+                            "relation": "incorrectly controls",
+                            "line_style": "solid",
+                        }
+                    )
+                elif mutation == "duplicate_forbidden_inference":
+                    document["semantic_inventory"]["forbidden_inferences"] *= 2
+                elif mutation == "unknown_cross_cutting_member":
+                    document["semantic_inventory"]["cross_cutting_regions"][0][
+                        "member_node_ids"
+                    ] = ["missing"]
+                elif mutation == "wireframe_gate_pending":
+                    document["layout"]["wireframe_gate"] = {
+                        "status": "pending",
+                        "review_artifact": None,
+                        "decision": None,
+                    }
                 else:
                     self.fail(f"unknown fixture mutation: {mutation}")
                 report = validate_manifest(document, strict=True, verify_artifacts=True)
@@ -272,7 +329,7 @@ class ManifestTests(unittest.TestCase):
 class AcceptanceInventoryTests(unittest.TestCase):
     def test_acceptance_inventory_has_unique_checks(self) -> None:
         checks = load_fixture("acceptance.json")["checks"]
-        self.assertEqual(8, len(checks))
+        self.assertEqual(9, len(checks))
         self.assertEqual(len(checks), len({item["id"] for item in checks}))
 
 

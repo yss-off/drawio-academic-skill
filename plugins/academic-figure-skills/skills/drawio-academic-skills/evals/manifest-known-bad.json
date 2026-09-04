@@ -10,6 +10,11 @@
     {"id": "accepted-missing-artifact", "mutation": "missing_final_artifact", "expected_code": "final_artifacts_required"},
     {"id": "accepted-qa-pending", "mutation": "qa_pending", "expected_code": "qa_incomplete"},
     {"id": "accepted-contract-pending", "mutation": "contract_pending", "expected_code": "contract_pending"},
-    {"id": "artifact-hash-mismatch", "mutation": "artifact_hash_mismatch", "expected_code": "artifact_hash"}
+    {"id": "artifact-hash-mismatch", "mutation": "artifact_hash_mismatch", "expected_code": "artifact_hash"},
+    {"id": "unknown-non-edge-endpoint", "mutation": "unknown_non_edge_endpoint", "expected_code": "unknown_non_edge_endpoint"},
+    {"id": "prohibited-edge-present", "mutation": "prohibited_edge_present", "expected_code": "prohibited_edge_present"},
+    {"id": "duplicate-forbidden-inference", "mutation": "duplicate_forbidden_inference", "expected_code": "duplicate_forbidden_inference_id"},
+    {"id": "unknown-cross-cutting-member", "mutation": "unknown_cross_cutting_member", "expected_code": "unknown_cross_cutting_member"},
+    {"id": "wireframe-gate-pending", "mutation": "wireframe_gate_pending", "expected_code": "wireframe_gate_pending"}
   ]
 }
