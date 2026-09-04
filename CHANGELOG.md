@@ -6,6 +6,7 @@
 - figure manifest 新增 `non_edges`、`forbidden_inferences`、`cross_cutting_regions`、`wireframe_gate` 和显式 `color_policy`；
 - manifest 校验器可拒绝已声明禁止却实际存在的边、未知边界端点、重复禁止误读、未知跨域成员和未完成的线框门禁；
 - 新增匿名语义边界回归案例、学术视觉问题分类、标题/泳道/支撑区间距审查和严格纯黑白规则；
+- 增加根级 pytest 包装测试，使通用 pre-push 钩子按项目既有隔离方式运行两个同名 smoke suite；
 - 保持 bundled `drawio` v2.7.0 上游源码不变，未同步或安装任何运行时副本。
 
 ## 0.3.0 - 2026-08-20

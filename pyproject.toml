@@ -9,6 +9,9 @@ license = "MIT"
 [tool.academic_figure_skills]
 offline = true
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
 [tool.academic_figure_skills.plugin]
 name = "academic-figure-skills"
 path = "plugins/academic-figure-skills"
