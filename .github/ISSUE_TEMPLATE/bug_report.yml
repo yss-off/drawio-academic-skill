@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a reproducible defect in a skill, renderer, validator, or package.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Please remove private data, credentials, and unpublished figures before submitting.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: 0.3.1 or commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - drawio
+        - drawio-academic-skills
+        - scientific-visualization
+        - packaging or marketplace
+        - documentation
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: Include the command, smallest safe input, actual output, and expected output.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Codex version, Python/Node versions, renderer, and relevant optional tools.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed credentials, private data, and restricted research content.
+          required: true

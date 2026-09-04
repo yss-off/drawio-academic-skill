@@ -1,0 +1,38 @@
+name: Feature request
+description: Propose a focused capability or workflow improvement.
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Describe the user-visible failure or missing capability, not only a preferred implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Safe example
+      description: Provide an anonymized prompt, figure contract, or minimal input.
+    validations:
+      required: true
+  - type: textarea
+    id: success
+    attributes:
+      label: Success criteria
+      description: What observable output or validation result should change?
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Best-fit component
+      options:
+        - drawio
+        - drawio-academic-skills
+        - scientific-visualization
+        - cross-skill routing
+        - packaging or documentation
+    validations:
+      required: true

@@ -7,9 +7,9 @@
 - `plugins/academic-figure-skills/skills/drawio-academic-skills/` 是关系型/示意型论文图 overlay 的权威源。
 - `plugins/academic-figure-skills/skills/scientific-visualization/` 是数据驱动科研图 skill 的权威源。
 - `pyproject.toml` 是工程、插件和三个 skill 版本清单的唯一权威；各 manifest/frontmatter/eval 版本必须与清单同步并由 `tools/verify_project.py` 校验。
-- `/home/yss/.codex/skills/drawio-academic-skills/` 只是已安装运行副本；未经用户明确授权，不得同步、覆盖或删除。
-- `/home/yss/.codex/skills/scientific-visualization/` 同样只是已安装运行副本；未经用户明确授权，不得同步、覆盖或删除。
-- `/home/yss/.codex/skills/drawio/` 同样只是已安装运行副本；不得把它当作工程源或回写目标。
+- `$CODEX_HOME/skills/drawio-academic-skills/` 只是可能存在的已安装运行副本；未经用户明确授权，不得同步、覆盖或删除。
+- `$CODEX_HOME/skills/scientific-visualization/` 同样只是可能存在的已安装运行副本；未经用户明确授权，不得同步、覆盖或删除。
+- `$CODEX_HOME/skills/drawio/` 同样只是可能存在的已安装运行副本；不得把它当作工程源或回写目标。
 - bundled `drawio` 只通过固定权威上游 rebase 更新；base 问题不得在 overlay 内复制 runtime 修补。
 - `management/` 只保存基线、设计决定、审计和验收记录，不得被 skill 运行时加载。
 
